@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Contoso Sample Web Chat</title>
+	<style>
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			margin: 0;
+		}
+
+		h1 {
+			font-size: 1.3rem;
+			font-family: Arial, Helvetica, sans-serif;
+			line-height: 20px;
+			color: whitesmoke;
+			display: table-cell;
+			padding: 13px 0px 0px 20px;
+		}
+
+		#heading {
+			background-color: #fa4242;
+			height: 50px;
+		}
+
+		.main {
+			margin: 18px;
+			border-radius: 4px;
+		}
+
+		div[role="form"] {
+			background-color: black;
+		}
+
+		#webchat {
+			position: fixed;
+			height: calc(100% - 50px);
+			width: 100%;
+			top: 50px;
+			overflow: hidden;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div>
+		<div id="heading">
+			<h1>Crimson Bot</h1>
+		</div>
+		<div id="webchat" role="main"></div>
+	</div>
+
+	<script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+	<script>
+		const styleOptions = {
+
+			botAvatarInitials: 'CB',
+			accent: '#00809d',
+			botAvatarBackgroundColor: "#fff",
+			botAvatarImage: '/avatar.png',
+			userAvatarImage: '/avatar.png',
+
+			backgroundColor: '#eceef4',
+
+			//			bubbleBorderColor: string,
+			//			bubbleBorderStyle: string,
+			//			bubbleBorderWidth: number,
+			//			bubbleFromUserBorderColor: string,
+			//			bubbleFromUserBorderStyle: string,
+			//			bubbleFromUserBorderWidth: number,
+
+			hideUploadButton: true
+		};
+
+		// Add your BOT ID below 
+		var BOT_ID = "4a333bcc-c8bd-4c9b-a56a-0b994fb8613d";
+		var theURL = "https://powerva.microsoft.com/api/botmanagement/v1/directline/directlinetoken?botId=" + BOT_ID;
+
+		fetch(theURL)
+			.then(response => response.json())
+			.then(conversationInfo => {
+				window.WebChat.renderWebChat(
+					{
+						directLine: window.WebChat.createDirectLine({
+							token: conversationInfo.token,
+						}),
+						styleOptions
+					},
+					document.getElementById('webchat')
+				);
+			})
+			.catch(err => console.error("An error occurred: " + err));
+
+	</script>
+</body>
+
+</html>
